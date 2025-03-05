@@ -5,8 +5,9 @@ import fetch from "node-fetch";
 const CLOUDFLARE_API_KEY = process.env.CLOUDFLARE_API_KEY;
 const CLOUDFLARE_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
 
-if (!CLOUDFLARE_API_KEY) {
+if (!CLOUDFLARE_API_KEY || !CLOUDFLARE_ACCOUNT_ID) {
   console.error("❌ CLOUDFLARE_API_KEY não está definida!");
+  process.exit(1);
 }
 
 const fastify = Fastify();
@@ -14,10 +15,6 @@ const fastify = Fastify();
 fastify.register(cors, {
   origin: "*",
   methods: ["GET", "POST"],
-});
-
-fastify.get("/", function (request, reply) {
-  reply.send({ hello: "world" });
 });
 
 fastify.post("/create-live", async (request, reply) => {
@@ -32,6 +29,9 @@ fastify.post("/create-live", async (request, reply) => {
           Authorization: `Bearer ${CLOUDFLARE_API_KEY}`,
           Accept: "application/json",
         },
+        body: JSON.stringify({
+          meta: { name },
+        }),
       }
     );
 

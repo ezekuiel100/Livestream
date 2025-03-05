@@ -1,12 +1,15 @@
+import { useState } from "react";
 import CreateLiveButton from "./CreateLiveButton";
-import LivePlayer from "./LivePlayer";
+import LiveStream from "./LiveStream";
 
 function App() {
+  const [id, setId] = useState(null);
+  const [url, setUrl] = useState(null);
+
   return (
     <>
-      <h1 className="text-2xl">Live Streaming com Cloudflare</h1>
-      {/* <LivePlayer /> */}
-      <CreateLiveButton />
+      {/* <CreateLiveButton setId={setId} setUrl={setUrl} /> */}
+      <LiveStream id={id} url={url} />
     </>
   );
 }

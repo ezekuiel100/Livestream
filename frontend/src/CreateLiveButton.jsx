@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CreateLiveButton = ({ setHlsUrl }) => {
+const CreateLiveButton = ({ setId, setUrl }) => {
   const [loading, setLoading] = useState(false);
 
   const createLiveStream = async () => {
@@ -14,11 +14,11 @@ const CreateLiveButton = ({ setHlsUrl }) => {
       });
 
       const data = await response.json();
-      console.log("Nova live criada:", data);
-
+      console.log(data.result);
       // Atualiza o HLS URL para exibir a live no player
-      if (data.result?.hls) {
-        setHlsUrl(data.result.hls);
+      if (data.result) {
+        setId(data.result.uid);
+        setUrl(data.result.webRTCPlayback.url);
       } else {
         alert("Erro ao criar a live");
       }
@@ -29,13 +29,15 @@ const CreateLiveButton = ({ setHlsUrl }) => {
   };
 
   return (
-    <button
-      onClick={createLiveStream}
-      disabled={loading}
-      className="p-2 bg-gray-300 m-2"
-    >
-      {loading ? "Criando Live..." : "Criar Live"}
-    </button>
+    <>
+      <button
+        onClick={createLiveStream}
+        disabled={loading}
+        className="p-2 bg-gray-300 m-2"
+      >
+        {loading ? "Criando Live..." : "Criar Live"}
+      </button>
+    </>
   );
 };
 
