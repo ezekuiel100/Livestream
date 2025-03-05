@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <h1 className="text-2xl">Live Streaming com Cloudflare</h1>
-      <LivePlayer />
+      {/* <LivePlayer /> */}
       <CreateLiveButton />
     </>
   );
