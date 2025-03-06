@@ -29,7 +29,7 @@ wss.on("connection", (ws) => {
     "128k",
     "-f",
     "flv",
-    `rtmp://live.cloudflare.com/live/${STREAM_KEY}`,
+    `rtmps://live.cloudflare.com/live/${STREAM_KEY}`,
   ]);
 
   ws.on("message", (message) => ffmpeg.stdin.write(message));
