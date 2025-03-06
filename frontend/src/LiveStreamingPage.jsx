@@ -26,7 +26,8 @@ const LiveStreamingPage = () => {
               autoPlay
               muted
               playsInline
-              className="video-preview w-full h-full object-cover "
+              className="w-full h-full object-cover "
+              id="video-preview"
             />
           </div>
 
