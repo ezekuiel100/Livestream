@@ -31,6 +31,14 @@ wss.on("connection", (ws) => {
   ]);
 
   ws.on("message", (message) => ffmpeg.stdin.write(message));
+
+  ws.on("message", (data) => {
+    console.log(`Recebendo pacote de vídeo: ${data.length} bytes`);
+  });
+
+  ws.on("pong", () => console.log("Conexão WebSocket ativa"));
+  setInterval(() => ws.ping(), 5000);
+
   ws.on("close", () => ffmpeg.kill("SIGINT"));
 });
 
