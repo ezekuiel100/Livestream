@@ -1,6 +1,5 @@
 import { useState } from "react";
-import CreateLiveButton from "./CreateLiveButton";
-import LiveStream from "./LiveStream";
+import LiveStreamingPage from "./LiveStreamingPage";
 
 function App() {
   const [id, setId] = useState(null);
@@ -9,7 +8,7 @@ function App() {
   return (
     <>
       {/* <CreateLiveButton setId={setId} setUrl={setUrl} /> */}
-      <LiveStream id={id} url={url} />
+      <LiveStreamingPage />
     </>
   );
 }
