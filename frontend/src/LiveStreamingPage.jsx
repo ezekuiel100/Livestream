@@ -20,7 +20,7 @@ const LiveStreamingPage = () => {
         "wss://livestream-production-498a.up.railway.app"
       );
       mediaRecorderRef.current = new MediaRecorder(stream, {
-        mimeType: "video/mp4",
+        mimeType: "video/webm; codecs=vp8",
       });
 
       mediaRecorderRef.current.ondataavailable = (event) => {

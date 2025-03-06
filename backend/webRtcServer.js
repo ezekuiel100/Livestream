@@ -9,6 +9,8 @@ wss.on("connection", (ws) => {
   console.log("Cliente conectado!");
 
   const ffmpeg = spawn("ffmpeg", [
+    "-f",
+    "webm",
     "-i",
     "-",
     "-c:v",
@@ -39,7 +41,12 @@ wss.on("connection", (ws) => {
   ws.on("pong", () => console.log("Conexão WebSocket ativa"));
   setInterval(() => ws.ping(), 5000);
 
-  ws.on("close", () => ffmpeg.kill("SIGINT"));
+  ffmpeg.stderr.on("data", (data) => {
+    console.error(`FFmpeg erro: ${data.toString()}`);
+  });
+  ffmpeg.on("close", (code) => {
+    console.log(`FFmpeg encerrado com código ${code}`);
+  });
 });
 
 console.log("Servidor WebSocket rodando na porta 8080...");
