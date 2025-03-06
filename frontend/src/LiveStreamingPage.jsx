@@ -16,9 +16,7 @@ const LiveStreamingPage = () => {
       const videoElement = videoRef.current;
       videoElement.srcObject = stream;
 
-      socketRef.current = new WebSocket(
-        "wss://livestream-production-498a.up.railway.app"
-      );
+      socketRef.current = new WebSocket("wss://localhost:8080");
       mediaRecorderRef.current = new MediaRecorder(stream, {
         mimeType: "video/webm; codecs=vp8",
       });
