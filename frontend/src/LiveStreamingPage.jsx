@@ -5,8 +5,21 @@ const LiveStreamingPage = () => {
 
   const videoRef = useRef(null);
 
+  async function startStream() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      const videoElement = videoRef.current;
+      videoElement.srcObject = stream;
+    } catch (error) {
+      console.error("Erro ao acessar a câmera:", error);
+    }
+  }
+
   return (
-    <div className="flex flex-col  h-screen bg-gray-100">
+    <div className="flex flex-col h-screen bg-gray-100">
       <header className="bg-blue-600 text-white p-4">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold">LiveStream App</h1>
@@ -19,14 +32,14 @@ const LiveStreamingPage = () => {
       </header>
 
       <main className="flex-grow justify-center container mx-auto p-4 flex flex-col md:flex-row gap-4">
-        <div className="w-full md:w-2/3 flex flex-col">
-          <div className="relative bg-black rounded-lg overflow-hidden aspect-video mb-4">
+        <div className="w-full md:w-1/3 flex flex-col ">
+          <div className="relative h-[50rem] bg-black rounded-lg overflow-hidden aspect-video mb-4">
             <video
               ref={videoRef}
               autoPlay
               muted
               playsInline
-              className="w-full h-full object-cover "
+              className="w-full h-full object-cover p-4 "
               id="video-preview"
             />
           </div>
@@ -46,16 +59,3 @@ const LiveStreamingPage = () => {
 };
 
 export default LiveStreamingPage;
-
-async function startStream() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true,
-    });
-    const videoElement = document.getElementById("video-preview");
-    videoElement.srcObject = stream;
-  } catch (error) {
-    console.error("Erro ao acessar a câmera:", error);
-  }
-}
