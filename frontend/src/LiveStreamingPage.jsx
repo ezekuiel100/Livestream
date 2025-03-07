@@ -16,7 +16,20 @@ const LiveStreamingPage = () => {
       const videoElement = videoRef.current;
       videoElement.srcObject = stream;
 
-      socketRef.current = new WebSocket("wss://localhost:8080");
+      socketRef.current = new WebSocket("wss://201.54.13.78:8080");
+
+      socketRef.current.onopen = () => {
+        console.log("✅ WebSocket conectado no React!");
+      };
+
+      socketRef.current.onerror = (error) => {
+        console.error("❌ Erro WebSocket:", error);
+      };
+
+      socketRef.current.onclose = (event) => {
+        console.warn("⚠️ WebSocket desconectado:", event);
+      };
+
       mediaRecorderRef.current = new MediaRecorder(stream, {
         mimeType: "video/webm; codecs=vp8",
       });
