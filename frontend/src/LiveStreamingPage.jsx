@@ -16,7 +16,7 @@ const LiveStreamingPage = () => {
       const videoElement = videoRef.current;
       videoElement.srcObject = stream;
 
-      socketRef.current = new WebSocket("wss://201.54.13.78:8080");
+      socketRef.current = new WebSocket("wss://livestreamapi.duckdns.org");
 
       socketRef.current.onopen = () => {
         console.log("✅ WebSocket conectado no React!");
