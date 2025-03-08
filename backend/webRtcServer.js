@@ -3,11 +3,14 @@ import { WebSocketServer } from "ws";
 import { spawn } from "child_process";
 
 const STREAM_KEY = process.env.STREAM_KEY;
-
-console.log("Stream key: ", STREAM_KEY);
-
+console.log("stream key: ", STREAM_KEY);
 // Criar servidor HTTPS com Fastify
-const fastify = Fastify();
+const fastify = Fastify({
+  https: {
+    key: process.env.SSL_PRIVATE_KEY,
+    cert: process.env.SSL_CERTIFICATE,
+  },
+});
 
 // Criar um servidor HTTP sobre HTTPS
 fastify.get("/", async (request, reply) => {
