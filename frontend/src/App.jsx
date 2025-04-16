@@ -6,8 +6,8 @@ import LivePlayback from "./LivePlayback";
 const liveUrl = import.meta.env.VITE_LIVE_URL;
 const playbackUrl = import.meta.env.VITE_PLAYBACK_URL;
 
-console.log(liveUrl);
-console.log(playbackUrl);
+console.log("LIVE", liveUrl);
+console.log("PLAYBACK ", playbackUrl);
 
 function App() {
   // const [id, setId] = useState(null);
