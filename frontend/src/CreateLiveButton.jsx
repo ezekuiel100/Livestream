@@ -14,11 +14,11 @@ const CreateLiveButton = ({ setId, setUrl }) => {
       });
 
       const data = await response.json();
-      console.log(data.result);
+      console.log(data.result.webRTC);
       // Atualiza o HLS URL para exibir a live no player
       if (data.result) {
         setId(data.result.uid);
-        setUrl(data.result.webRTCPlayback.url);
+        setUrl(data.result.webRTC.url);
       } else {
         alert("Erro ao criar a live");
       }

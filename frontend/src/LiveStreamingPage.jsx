@@ -1,58 +1,37 @@
 import React, { useState, useRef } from "react";
+import WHIPClient from "./WHIPClient.js";
 
-const LiveStreamingPage = () => {
+const LiveStreamingPage = ({ url, setIsLiveStarted }) => {
   const [isStreaming, setIsStreaming] = useState(false);
 
   const videoRef = useRef(null);
-  const mediaRecorderRef = useRef(null);
-  const socketRef = useRef(null);
+  const whipClientRef = useRef(null);
 
   async function startStream() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        audio: true,
       });
       const videoElement = videoRef.current;
       videoElement.srcObject = stream;
 
-      socketRef.current = new WebSocket("wss://livestream19.shop:8080");
+      const whipClient = new WHIPClient(url, videoElement);
+      whipClientRef.current = whipClient;
+      await whipClient.start(stream);
 
-      socketRef.current.onopen = () => {
-        console.log("✅ WebSocket conectado no React!");
-      };
-
-      socketRef.current.onerror = (error) => {
-        console.error("❌ Erro WebSocket:", error);
-      };
-
-      socketRef.current.onclose = (event) => {
-        console.warn("⚠️ WebSocket desconectado:", event);
-      };
-
-      mediaRecorderRef.current = new MediaRecorder(stream, {
-        mimeType: "video/webm; codecs=vp8",
-      });
-
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0 && socketRef.current.readyState === 1) {
-          socketRef.current.send(event.data);
-        }
-      };
-
-      mediaRecorderRef.current.start(1000); // Enviar dados a cada 1s
       setIsStreaming(true);
+      setIsLiveStarted(true);
     } catch (error) {
       console.error("Erro ao acessar a câmera:", error);
     }
   }
 
-  function stopStream() {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
+  async function stopStream() {
+    if (whipClientRef.current) {
+      await whipClientRef.current.stop();
     }
-    if (socketRef.current) {
-      socketRef.current.close();
+    if (whipClientRef.current) {
+      whipClientRef.current.close();
     }
     setIsStreaming(false);
   }
