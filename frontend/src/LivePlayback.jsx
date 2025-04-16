@@ -1,39 +1,14 @@
-import React, { useEffect, useRef } from "react";
-import WHEPClient from "./WHEPClient.js";
-
-const LivePlayback = ({ playbackUrl }) => {
-  const videoRef = useRef(null);
-  const clientRef = useRef(null);
-
-  useEffect(() => {
-    const startPlayback = async () => {
-      if (playbackUrl && videoRef.current) {
-        await new Promise((resolve) => setTimeout(resolve, 10000));
-        clientRef.current = new WHEPClient(playbackUrl, videoRef.current);
-        await clientRef.current.start();
-      }
-    };
-
-    startPlayback();
-
-    return () => {
-      if (clientRef.current) {
-        clientRef.current.stop();
-      }
-    };
-  }, [playbackUrl]);
-
+function LivePlayback() {
   return (
-    <div className="w-full h-full bg-black">
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        controls
-        className="w-full h-full object-cover"
-      />
+    <div className="my-10 ">
+      <iframe
+        className="w-96 h-[35rem] mx-auto"
+        src="https://customer-fjinuof8sy200275.cloudflarestream.com/a30f5ef26e363614e4392edb9eefa132/iframe"
+        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+        allowFullScreen
+      ></iframe>
     </div>
   );
-};
+}
 
 export default LivePlayback;
